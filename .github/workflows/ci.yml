@@ -33,7 +33,7 @@ jobs:
       # run: npm install && npm run deploy
 
       - name: Build and Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
-        uses: JamesIves/github-pages-deploy-action@4.1.3 # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
+        uses: JamesIves/github-pages-deploy-action@main # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
         env: # 设置环境变量
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # github toKen私密变量
           BASE_BRANCH: master # 要部署的文件夹所在的分支.
