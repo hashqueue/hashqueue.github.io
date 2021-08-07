@@ -12,25 +12,19 @@ env: # 设置环境变量
   TZ: Asia/Shanghai # 时区（设置时区可使页面中的`最近更新时间`使用时区时间）
 
 jobs:
-  build: # 自定义名称
+  build-and-deploy: # 自定义名称
     runs-on: ubuntu-latest # 运行在虚拟机环境ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
 
     steps:
       - name: Checkout 🛎️ # 步骤1
         uses: actions/checkout@v2.3.1 # 使用的动作。格式：userName/repoName。作用：检出仓库，获取源码。 官方actions库：https://github.com/actions
-      - name: Install Node.js ${{ matrix.node-version }} 🔧 # 步骤2
-        uses: actions/setup-node@v1 # 作用：安装nodejs
-        with:
-          node-version: ${{ matrix.node-version }} # 版本
-      - name: Build and Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
+
+      - name: Install and Build 🔧 # 步骤2
+        run: npm install && npm run build && cd docs/.vuepress/dist && echo 'blog.wenbin.org.cn' > CNAME && cd -
+
+      - name: Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
         uses: JamesIves/github-pages-deploy-action@4.0.0 # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
-        env: # 设置环境变量
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # toKen私密变量
-          BASE_BRANCH: main # 要部署的文件夹所在的分支.
-          BRANCH: gh-pages # 部署到的分支
-          FOLDER: docs/.vuepress/dist # 要部署的文件夹.
-          BUILD_SCRIPT: npm install && npm run build && cd docs/.vuepress/dist && echo 'blog.wenbin.org.cn' > CNAME && cd -
+        with:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/.vuepress/dist
