@@ -2,7 +2,7 @@ name: CI
 
 #on: [push]
 
-# 在master分支发生push事件时触发。
+# 在main分支发生push事件时触发。
 on:
   push:
     branches:
@@ -31,12 +31,11 @@ jobs:
       # GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # toKen私密变量
       # CODING_TOKEN: ${{ secrets.CODING_TOKEN }}
       # run: npm install && npm run deploy
-
-      - name: Build and Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
-        uses: JamesIves/github-pages-deploy-action@main # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
-        env: # 设置环境变量
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # github toKen私密变量
-          BASE_BRANCH: master # 要部署的文件夹所在的分支.
-          BRANCH: gh-pages # 部署到的分支
-          FOLDER: docs/.vuepress/dist # 要部署的文件夹.
-          BUILD_SCRIPT: npm install && npm run deploy
+       - name: Build and Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
+         uses: JamesIves/github-pages-deploy-action@master # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
+         env: # 设置环境变量
+           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # toKen私密变量
+           BASE_BRANCH: main # 要部署的文件夹所在的分支.
+           BRANCH: gh-pages # 部署到的分支
+           FOLDER: docs/.vuepress/dist # 要部署的文件夹.
+           BUILD_SCRIPT: npm install && npm run build && cd docs/.vuepress/dist && echo 'blog.wenbin.org.cn' > CNAME && cd -
