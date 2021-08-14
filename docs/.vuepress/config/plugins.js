@@ -6,8 +6,6 @@ module.exports = [
     excludeClassName: 'theme-vdoing-content' // 要排除元素的class, 默认空''
   }],
 
-  'vuepress-plugin-baidu-autopush', // 百度自动推送
-
   // 可以添加第三方搜索链接的搜索框（原官方搜索框的参数仍可用）
   [
     'thirdparty-search',
@@ -73,29 +71,8 @@ module.exports = [
     },
   ],
   [
-    'vuepress-plugin-baidu-tongji', // 百度统计
     {
       hm: '503f098e7e5b3a5b5d8c5fc2938af002',
-    },
-  ],
-  [
-    'vuepress-plugin-comment', // 评论
-    {
-      choosen: 'gitalk',
-      options: {
-        clientID: '6210daee1228caf61dd2',
-        clientSecret: '1f4d58f9609528f9e06d562407a57051dee4992a',
-        repo: 'blog-gitalk-comment', // GitHub 仓库
-        owner: 'hashqueue', // GitHub仓库所有者
-        admin: ['hashqueue'], // 对仓库有写权限的人
-        // distractionFreeMode: true,
-        pagerDirection: 'last', // 'first'正序 | 'last'倒序
-        id: '<%- (frontmatter.permalink || frontmatter.to.path).slice(-16) %>', //  页面的唯一标识,长度不能超过50
-        title: '「评论」<%- frontmatter.title %>', // GitHub issue 的标题
-        labels: ['Gitalk', 'Comment'], // GitHub issue 的标签
-        body:
-          '页面：<%- window.location.origin + (frontmatter.to.path || window.location.pathname) %>', // GitHub issue 的内容
-      },
     },
   ],
   [
