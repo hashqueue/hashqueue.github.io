@@ -25,6 +25,6 @@ jobs:
       - name: Deploy 🚀 # 步骤3 （只提交到github可以使用这个步骤）
         uses: JamesIves/github-pages-deploy-action@4.0.0 # 作用：将项目构建和部署到github。 https://github.com/JamesIves/github-pages-deploy-action
         with:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: docs/.vuepress/dist
