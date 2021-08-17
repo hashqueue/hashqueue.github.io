@@ -1,0 +1,45 @@
+---
+title: Ubuntu下配置adb环境连接Android设备进行调试
+date: 2021-08-17 23:25:03
+permalink: /pages/6c6252/
+categories:
+  - 测试开发
+tags:
+  - 
+---
+## 什么是adb
+`adb`英文全称`(Android Debug Bridge)`，Android 调试桥 (adb) 是一种功能多样的命令行工具，可让您与设备进行通信。adb 命令可用于执行各种设备操作（例如安装和调试应用），并提供对 Unix shell（可用来在设备上运行各种命令）的访问权限。它是一种客户端-服务器程序，包括以下三个组件：
+
+1. 客户端：用于发送命令。客户端在开发机器上运行。您可以通过发出 adb 命令从命令行终端调用客户端。
+2. 守护程序 (adbd)：用于在设备上运行命令。守护程序在每个设备上作为后台进程运行。
+3. 服务器：用于管理客户端与守护程序之间的通信。服务器在开发机器上作为后台进程运行。
+
+`adb`包含在`Android SDK`平台工具软件包中。您可以使用 [SDK 管理器](https://developer.android.com/studio/intro/update#sdk-manager) 下载此软件包，该管理器会将其安装在`android_sdk/platform-tools/` 下。或者，如果您需要独立的`Android SDK`平台工具软件包，也可以 [点击此处进行下载](https://developer.android.com/studio/releases/platform-tools) 。
+
+## Ubuntu20.04下安装配置adb
+
+### 安装adb相关工具包
+
+```shell
+sudo apt install android-tools-adb -y
+sudo apt install android-tools-fastboot -y
+```
+
+### 使用USB数据线连接手机和电脑，执行以下命令
+```shell
+w@w-Vulcan-Series:~$ adb devices 
+List of devices attached
+adb server version (41) doesn't match this client (39); killing...
+* daemon started successfully
+30cd9195	no permissions (user in plugdev group; are your udev rules wrong?); see [http://developer.android.com/tools/device.html]
+```
+
+注意此处提示`无权限`，是因为`Android设备`还没有接受允许通过此计算机进行调试的`RSA密钥`，然后拔掉USB数据线，重新插到电脑上，手机会弹出一个`是否接受允许通过此计算机进行调试的RSA密钥`的弹窗，选择接受就可以了。
+
+### 验证adb配置完成
+重新执行一下`adb devices -l`就可以看到已经通过`adb`连接到`Android设备`，然后就可以通过`adb`来调试`Android设备`了。
+```shell
+w@w-Vulcan-Series:~$ adb devices -l
+List of devices attached
+34cY9095               device usb:1-9 product:polaris model:MIX_2S device:polaris transport_id:2
+```
