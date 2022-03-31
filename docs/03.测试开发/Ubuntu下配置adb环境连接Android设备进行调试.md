@@ -18,11 +18,15 @@ tags:
 
 ## Ubuntu20.04下安装配置adb
 
-### 安装adb相关工具包
+### 下载adb工具包
+[点击此处进行下载](https://developer.android.com/studio/releases/platform-tools) 注意要下载Linux版本的。
 
+解压压缩包到任意目录并将该目录的路径添加到环境变量中
 ```shell
-sudo apt install android-tools-adb -y
-sudo apt install android-tools-fastboot -y
+vim ~/.bashrc
+# 将下面内容添加到~/.bashrc文件的最后一行
+export PATH=$PATH:/home/hashqueue/android-adb-tools
+source ~/.bashrc
 ```
 
 ### 使用USB数据线连接手机和电脑，执行以下命令
