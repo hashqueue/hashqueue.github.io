@@ -52,7 +52,7 @@ module.exports = {
   },
   blogger: {
     // 博主信息，显示在首页侧边栏
-    avatar: 'https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/boy.9boh24edgrg.png',
+    avatar: 'https://cdn.staticaly.com/gh/hashqueue/blog-image-hosting@master/images/ver.2wtugvrdka00.webp',
     name: 'hashqueue',
     slogan: '一个小菜鸡，Web全栈开发努力中...',
   },
