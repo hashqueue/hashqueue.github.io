@@ -13,7 +13,7 @@ env: # 设置环境变量
 
 jobs:
   build-and-deploy: # 自定义名称
-    runs-on: ubuntu-latest # 运行在虚拟机环境ubuntu-latest
+    runs-on: node16 # 运行在虚拟机环境ubuntu-latest
 
     steps:
       - name: Checkout 🛎️ # 步骤1
