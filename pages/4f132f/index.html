@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>shell—文本处理三剑客grep&amp;sed&amp;awk | hashqueue&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/img/favicon.ico">
+    <script data-ad-client="ca-pub-7828333725993554" async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="description" content="web全栈开发技术博客,简洁至上,专注web全栈开发学习与总结。JavaScript,js,ES6,TypeScript,vue,python,css3,html5,Node,git,github等技术文章。">
+    <meta name="keywords" content="前端博客,后端博客,个人技术博客,前端,前端开发,前端框架,web前端,前端面试题,技术文档,学习,面试,JavaScript,js,ES6,TypeScript,vue,python,css3,html5,Node,git,github,markdown">
+    <meta name="theme-color" content="#11a8cd">
+    
+    <link rel="preload" href="/assets/css/0.styles.0d5a5c7e.css" as="style"><link rel="preload" href="/assets/js/app.56233da9.js" as="script"><link rel="preload" href="/assets/js/2.428278c7.js" as="script"><link rel="preload" href="/assets/js/58.710ee01b.js" as="script"><link rel="prefetch" href="/assets/js/10.69adbc3c.js"><link rel="prefetch" href="/assets/js/11.f6a9cd78.js"><link rel="prefetch" href="/assets/js/12.f553d420.js"><link rel="prefetch" href="/assets/js/13.b73888ff.js"><link rel="prefetch" href="/assets/js/14.0bdfe705.js"><link rel="prefetch" href="/assets/js/15.fa335165.js"><link rel="prefetch" href="/assets/js/16.f76cdc96.js"><link rel="prefetch" href="/assets/js/17.9be0b651.js"><link rel="prefetch" href="/assets/js/18.c6d6b52c.js"><link rel="prefetch" href="/assets/js/19.bc35a02e.js"><link rel="prefetch" href="/assets/js/20.4adfffaf.js"><link rel="prefetch" href="/assets/js/21.50536190.js"><link rel="prefetch" href="/assets/js/22.0df4a7a0.js"><link rel="prefetch" href="/assets/js/23.166f6ebf.js"><link rel="prefetch" href="/assets/js/24.00cf9a43.js"><link rel="prefetch" href="/assets/js/25.65f57b03.js"><link rel="prefetch" href="/assets/js/26.ee5dddbf.js"><link rel="prefetch" href="/assets/js/27.eca48c41.js"><link rel="prefetch" href="/assets/js/28.aa900806.js"><link rel="prefetch" href="/assets/js/29.2df68e92.js"><link rel="prefetch" href="/assets/js/3.91dab8b1.js"><link rel="prefetch" href="/assets/js/30.88bd857a.js"><link rel="prefetch" href="/assets/js/31.ba52b782.js"><link rel="prefetch" href="/assets/js/32.634b2937.js"><link rel="prefetch" href="/assets/js/33.41f85622.js"><link rel="prefetch" href="/assets/js/34.12a4652d.js"><link rel="prefetch" href="/assets/js/35.a53f2cab.js"><link rel="prefetch" href="/assets/js/36.a5a3ac60.js"><link rel="prefetch" href="/assets/js/37.be2fcba0.js"><link rel="prefetch" href="/assets/js/38.02cf1819.js"><link rel="prefetch" href="/assets/js/39.5bac1cec.js"><link rel="prefetch" href="/assets/js/4.5d639fb5.js"><link rel="prefetch" href="/assets/js/40.e0532367.js"><link rel="prefetch" href="/assets/js/41.3db193f2.js"><link rel="prefetch" href="/assets/js/42.13174813.js"><link rel="prefetch" href="/assets/js/43.ccad5183.js"><link rel="prefetch" href="/assets/js/44.5baaf46c.js"><link rel="prefetch" href="/assets/js/45.90bb5e2a.js"><link rel="prefetch" href="/assets/js/46.6d13cd8d.js"><link rel="prefetch" href="/assets/js/47.701b600b.js"><link rel="prefetch" href="/assets/js/48.43f3d9bf.js"><link rel="prefetch" href="/assets/js/49.25b962bd.js"><link rel="prefetch" href="/assets/js/5.8a13d43d.js"><link rel="prefetch" href="/assets/js/50.4aaa265e.js"><link rel="prefetch" href="/assets/js/51.7c38894d.js"><link rel="prefetch" href="/assets/js/52.2f5a1543.js"><link rel="prefetch" href="/assets/js/53.336b461f.js"><link rel="prefetch" href="/assets/js/54.2f34f22c.js"><link rel="prefetch" href="/assets/js/55.87405727.js"><link rel="prefetch" href="/assets/js/56.1a49ebb3.js"><link rel="prefetch" href="/assets/js/57.38b67427.js"><link rel="prefetch" href="/assets/js/59.8a3969b6.js"><link rel="prefetch" href="/assets/js/6.3cf89dd3.js"><link rel="prefetch" href="/assets/js/60.42d32fdc.js"><link rel="prefetch" href="/assets/js/61.23efef9a.js"><link rel="prefetch" href="/assets/js/62.fd6a6a4c.js"><link rel="prefetch" href="/assets/js/63.a1599c64.js"><link rel="prefetch" href="/assets/js/64.740d6add.js"><link rel="prefetch" href="/assets/js/65.d998436d.js"><link rel="prefetch" href="/assets/js/66.8678d528.js"><link rel="prefetch" href="/assets/js/67.9a643d37.js"><link rel="prefetch" href="/assets/js/68.d5dcd9d2.js"><link rel="prefetch" href="/assets/js/69.47dd3667.js"><link rel="prefetch" href="/assets/js/7.9140e028.js"><link rel="prefetch" href="/assets/js/70.0de15fad.js"><link rel="prefetch" href="/assets/js/8.6df96559.js"><link rel="prefetch" href="/assets/js/9.72b85f87.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d5a5c7e.css">
+  </head>
+  <body class="theme-mode-light">
+    <div id="app" data-server-rendered="true"><div class="theme-container sidebar-open have-rightmenu"><header class="navbar blur"><div title="目录" class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/img/hashqueue-logo.png" alt="hashqueue's blog" class="logo"> <span class="site-name can-hide">hashqueue's blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏" class="dropdown-title"><a href="/categories/?category=%E6%94%B6%E8%97%8F" class="link-title">收藏</a> <span class="title" style="display:none;">收藏</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/a5f74c/" class="nav-link">大佬的博客</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/hashqueue/hashqueue.github.io" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar-hover-trigger"></div> <aside class="sidebar" style="display:none;"><div class="blogger"><img src="https://cdn.staticaly.com/gh/hashqueue/blog-image-hosting@master/images/ver.2wtugvrdka00.webp"> <div class="blogger-info"><h3>hashqueue</h3> <span>一个小菜鸡，Web全栈开发努力中...</span></div></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏" class="dropdown-title"><a href="/categories/?category=%E6%94%B6%E8%97%8F" class="link-title">收藏</a> <span class="title" style="display:none;">收藏</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/a5f74c/" class="nav-link">大佬的博客</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/hashqueue/hashqueue.github.io" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Linux</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/8c00bb/" class="sidebar-link">详解CPU密集型和IO密集型</a></li><li><a href="/pages/50358b/" class="sidebar-link">Ubuntu下通过zssh与服务器进行上传&amp;下载文件操作</a></li><li><a href="/pages/bacf7e/" class="sidebar-link">查看Linux发行版名称和版本号</a></li><li><a href="/pages/a4491c/" class="sidebar-link">工作中常用的Linux命令(持续完善中)</a></li><li><a href="/pages/3bd1fc/" class="sidebar-link">shell-常用命令</a></li><li><a href="/pages/9fdce9/" class="sidebar-link">Linux终端常用快捷键</a></li><li><a href="/pages/747fbc/" class="sidebar-link">shell-基础语法</a></li><li><a href="/pages/4f132f/" aria-current="page" class="active sidebar-link">shell—文本处理三剑客grep&amp;sed&amp;awk</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level2"><a href="/pages/4f132f/#grep" class="sidebar-link">grep</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#选项用法示例" class="sidebar-link">选项用法示例</a></li></ul></li><li class="sidebar-sub-header level2"><a href="/pages/4f132f/#sed" class="sidebar-link">sed</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#用法选项-option" class="sidebar-link">用法选项[option]</a></li><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#pattern模式" class="sidebar-link">pattern模式</a></li><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#command命令" class="sidebar-link">command命令</a></li><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#用法示例" class="sidebar-link">用法示例</a></li></ul></li><li class="sidebar-sub-header level2"><a href="/pages/4f132f/#awk" class="sidebar-link">awk</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#内置变量" class="sidebar-link">内置变量</a></li><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#printf格式符" class="sidebar-link">printf格式符</a></li><li class="sidebar-sub-header level3"><a href="/pages/4f132f/#awk命令用法示例" class="sidebar-link">awk命令用法示例</a></li></ul></li></ul></li><li><a href="/pages/750886/" class="sidebar-link">阿里云CentOS服务器更改ssh端口</a></li><li><a href="/pages/346ae6/" class="sidebar-link">shell-日志文件分析实战</a></li><li><a href="/pages/eaf8f0/" class="sidebar-link">Linux命令速查手册</a></li><li><a href="/pages/6c6252/" class="sidebar-link">Ubuntu下配置adb环境连接Android设备进行调试</a></li></ul></section></li></ul> </aside> <div><main class="page"><div class="theme-vdoing-wrapper "><div class="articleInfo-wrap" data-v-06225672><div class="articleInfo" data-v-06225672><ul class="breadcrumbs" data-v-06225672><li data-v-06225672><a href="/" title="首页" class="iconfont icon-home router-link-active" data-v-06225672></a></li> <li data-v-06225672><a href="/categories/?category=%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" title="分类" data-v-06225672>操作系统</a></li><li data-v-06225672><a href="/categories/?category=Linux" title="分类" data-v-06225672>Linux</a></li></ul> <div class="info" data-v-06225672><div title="作者" class="author iconfont icon-touxiang" data-v-06225672><a href="https://github.com/hashqueue" target="_blank" title="作者" class="beLink" data-v-06225672>hashqueue</a></div> <div title="创建时间" class="date iconfont icon-riqi" data-v-06225672><a href="javascript:;" data-v-06225672>2021-08-09</a></div> <!----></div></div></div> <!----> <div class="content-wrapper"><div class="right-menu-wrapper"><div class="right-menu-margin"><div class="right-menu-title">目录</div> <div class="right-menu-content"></div></div></div> <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAABGpJREFUSA3tVVtoXFUU3fvOI53UlmCaKIFmwEhsE7QK0ipFEdHEKpXaZGrp15SINsXUWvBDpBgQRKi0+KKoFeJHfZA+ED9KKoIU2gYD9UejTW4rVIzm0VSTziPzuNu1z507dibTTjL4U/DAzLn3nL3X2o91ziX6f9wMFdh6Jvbm9nNSV0msViVO6tN1Rm7NMu2OpeJ9lWBUTDxrJbYTS0hInuwciu9eLHlFxCLCZEk3MegsJmZ5K/JD6t7FkFdEvGUo1g7qJoG3MHImqRIn8/nzY1K9UPKKiJmtnUqHVE3Gbuay6vJE/N2FEmuxFjW2nUuE0yQXRRxLiTUAzs36zhZvOXJPdX850EVnnLZkB8prodQoM5JGj7Xk2mvC7JB8tG04Ef5PiXtG0UtxupRQSfTnBoCy554x18yJHI6I+G5Eru4LHmPJZEQsrvPUbMiA8G/WgMK7w7I+ez7++o2ANfbrjvaOl1tFMs+htG3IrZH9/hDX1Pr8Tc0UvH8tcX29KzAgIGcEkINyW5BF9x891hw6VYqgJHEk0huccS7vh3C6gTiODL+26huuBtbct8eZnqLML8PkxGYpuPZBqtqwkSjgc4mB5gbgig5i+y0UDK35LMxXisn9xQtK+nd26gTIHsHe/oblK/b29fUmN/8Y+9jAQrnBp56m1LcDlDp9irKTExSKduXJVWSqdBMA08pEJnEIOB3FPPMybu/oeV8zFeYN3xx576Q6RH+VmplE4ncQV5v+5rzSoyOU7PuEAg8g803PwBJ0CExno/jcMbN8tONYeOmHiuUNryvm3fRUy4tMPVLdAGkUhNWuggGrJcXPv+ouCjz0MKUHz1J2/E8IC9nqTabcxgaBYM0hPhD5Y65FsbxRQKxCQrDjDctW7PUM3HuZunFyifSAqEfuzCp48Il24luWUWZoyJCaPR82jE0+kFA643wRFVni4RYSq3ohJO2pZ7B5dO4xkDWbEpossJPLSrPjYID8rS2UHTlvyNxqIGsg674XJJ7vnh5L7PNwC4hh2sjCI96mzszOTpxLF0T7l88Yz7lAuK6OnL8gXLOnTvpzSb22YG8W7us3jSebFHeeqnXRG1vt+MoUM84LQIBmMsCTAcOauTh0T0l0neQK7m2bLMt2mGxU3HYssS0J2cdv5wljlPsrIuZLAG/2DOZIXgCYT8uMGZN+e2kSirfxZOPCsC0f24nTZzspnVn9VePS1Z5vubmAGGXG8ZFno9Hel0yfA5ZPhF7Dh972BQJ2qCpgH67lmWtBYbvk6sz02wjky2vXyz0XErP/kFB619js1BtwfOV4OPRqOQBjy3Qbk18vigUPPSD5ceHnwck7W9bhAqZdd7SuG7w4/P2F/GaJh8c7e9qgow+Q7cGBo+98WsLkuktFqiZabtXuQTu/Y5ETbR0v7tNSFnvrmu6pjdoan2KjMu8q/Hmj1EfCO2ZGfEIbIXKUlw8qaX9/b2oeSJmFksSeT/Fn0V3nSypChh4Gjh74ybO9aeZ/AN2dwciu2/MhAAAAAElFTkSuQmCC">shell—文本处理三剑客grep&amp;sed&amp;awk<!----></h1> <!----> <div class="theme-vdoing-content content__default"><h1 id="文本处理三剑客-grep-sed-awk"><a href="#文本处理三剑客-grep-sed-awk" class="header-anchor">#</a> 文本处理三剑客：<code>grep</code>,<code>sed</code>,<code>awk</code></h1> <h2 id="grep"><a href="#grep" class="header-anchor">#</a> grep</h2> <ul><li><code>grep --help</code>查看grep命令帮助文档</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">grep</span> <span class="token parameter variable">--help</span>
+用法: <span class="token function">grep</span> <span class="token punctuation">[</span>选项<span class="token punctuation">]</span><span class="token punctuation">..</span>. PATTERN <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span><span class="token punctuation">..</span>.
+Search <span class="token keyword">for</span> <span class="token for-or-select variable">PATTERN</span> <span class="token keyword">in</span> each FILE.
+Example: <span class="token function">grep</span> <span class="token parameter variable">-i</span> <span class="token string">'hello world'</span> menu.h main.c
+
+Pattern selection and interpretation:
+  -E, --extended-regexp     PATTERN is an extended regular expression
+  -F, --fixed-strings       PATTERN is a <span class="token builtin class-name">set</span> of newline-separated strings
+  -G, --basic-regexp        PATTERN is a basic regular expression <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+  -P, --perl-regexp         PATTERN is a Perl regular expression
+  -e, <span class="token parameter variable">--regexp</span><span class="token operator">=</span>PATTERN      用 PATTERN 来进行匹配操作
+  -f, <span class="token parameter variable">--file</span><span class="token operator">=</span>FILE           从 FILE 中取得 PATTERN
+  -i, --ignore-case         忽略大小写
+  -w, --word-regexp         强制 PATTERN 仅完全匹配字词
+  -x, --line-regexp         强制 PATTERN 仅完全匹配一行
+  -z, --null-data           一个 <span class="token number">0</span> 字节的数据行，但不是空行
+
+杂项:
+  -s, --no-messages         不显示错误信息
+  -v, --invert-match        选中不匹配的行
+  -V, <span class="token parameter variable">--version</span>             显示版本信息并退出
+      <span class="token parameter variable">--help</span>                显示此帮助并退出
+
+Output control:
+  -m, --max-count<span class="token operator">=</span>NUM       stop after NUM selected lines
+  -b, --byte-offset         print the byte offset with output lines
+  -n, --line-number         print line number with output lines
+      --line-buffered       flush output on every line
+  -H, --with-filename       print <span class="token function">file</span> name with output lines
+  -h, --no-filename         suppress the <span class="token function">file</span> name prefix on output
+      <span class="token parameter variable">--label</span><span class="token operator">=</span>LABEL         use LABEL as the standard input <span class="token function">file</span> name prefix
+  -o, --only-matching       只显示匹配PATTERN 部分的行
+  -q, --quiet, <span class="token parameter variable">--silent</span>     不显示所有常规输出
+      --binary-files<span class="token operator">=</span>TYPE   设定二进制文件的TYPE 类型；
+                            TYPE 可以是<span class="token variable"><span class="token variable">`</span>binary', <span class="token variable">`</span></span>text<span class="token string">', 或`without-match'</span>
+  -a, <span class="token parameter variable">--text</span>                等同于 --binary-files<span class="token operator">=</span>text
+  <span class="token parameter variable">-I</span>                        等同于 --binary-files<span class="token operator">=</span>without-match
+  -d, <span class="token parameter variable">--directories</span><span class="token operator">=</span>ACTION  读取目录的方式；
+                            ACTION 可以是<span class="token variable"><span class="token variable">`</span>read', <span class="token variable">`</span></span>recurse<span class="token string">',或`skip'</span>
+  -D, <span class="token parameter variable">--devices</span><span class="token operator">=</span>ACTION      读取设备、先入先出队列、套接字的方式；
+                            ACTION 可以是<span class="token variable"><span class="token variable">`</span>read'或<span class="token variable">`</span></span>skip<span class="token string">'
+  -r, --recursive           等同于--directories=recurse
+  -R, --dereference-recursive       同上，但遍历所有符号链接
+      --include=FILE_PATTERN  只查找匹配FILE_PATTERN 的文件
+      --exclude=FILE_PATTERN  跳过匹配FILE_PATTERN 的文件和目录
+      --exclude-from=FILE   跳过所有除FILE 以外的文件
+      --exclude-dir=PATTERN  跳过所有匹配PATTERN 的目录。
+  -L, --files-without-match  print only names of FILEs with no selected lines
+  -l, --files-with-matches  print only names of FILEs with selected lines
+  -c, --count               print only a count of selected lines per FILE
+  -T, --initial-tab         make tabs line up (if needed)
+  -Z, --null                print 0 byte after FILE name
+
+文件控制:
+  -B, --before-context=NUM  打印文本及其前面NUM 行
+  -A, --after-context=NUM   打印文本及其后面NUM 行
+  -C, --context=NUM         打印NUM 行输出文本
+  -NUM                      same as --context=NUM
+      --color[=WHEN],
+      --colour[=WHEN]       use markers to highlight the matching strings;
+                            WHEN is '</span>always<span class="token string">', '</span>never<span class="token string">', or '</span>auto<span class="token string">'
+  -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)
+
+When FILE is '</span>-<span class="token string">', read standard input.  With no FILE, read '</span><span class="token builtin class-name">.</span><span class="token string">' if
+recursive, '</span>-' otherwise.  With fewer than two FILEs, assume -h.
+Exit status is <span class="token number">0</span> <span class="token keyword">if</span> any line is selected, <span class="token number">1</span> otherwise<span class="token punctuation">;</span>
+<span class="token keyword">if</span> any error occurs and <span class="token parameter variable">-q</span> is not given, the <span class="token builtin class-name">exit</span> status is <span class="token number">2</span>.
+
+请将错误报告给: bug-grep@gnu.org。翻译问题请报告至:Chinese <span class="token punctuation">(</span>simplified<span class="token punctuation">)</span> <span class="token operator">&lt;</span>i18n-zh@googlegroups.com<span class="token operator">&gt;</span>。
+GNU <span class="token function">grep</span> 主页: <span class="token operator">&lt;</span>http://www.gnu.org/software/grep/<span class="token operator">&gt;</span>
+GNU 软件的通用帮助: <span class="token operator">&lt;</span>http://www.gnu.org/gethelp/<span class="token operator">&gt;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br></div></div><ul><li>用法
+<ul><li><code>grep [option] [pattern] [file1, file2, ...]</code></li> <li><code>some command | grep [option] [pattern]</code></li></ul></li></ul> <h3 id="选项用法示例"><a href="#选项用法示例" class="header-anchor">#</a> 选项用法示例</h3> <ul><li><code>-i</code>：忽略大小写
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-fcc343964a1643a08a2aecf33c4467f6.png" alt="image.png"></li> <li><code>-c</code>：只输出匹配行的数量
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-d63d22bfaa474b288297af088245b3b1.png" alt="image.png"></li> <li><code>-n</code>：显示行号
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-14ed2de3668e4891a9a2ff91b0a94677.png" alt="image.png"></li> <li><code>-r</code>：递归搜索
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-ecc5d1497d6143708f878b532e62f82d.png" alt="image.png"></li> <li><code>-E</code>：支持拓展正则表达式(默认<code>grep</code>后边只能使用基础的<code>正则表达式</code>，如果需要使用高级的<code>正则表达式</code>，则需要加上<code>-E</code>选项)
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-4615baac8ecb460c92ef21fa1b4ae7d7.png" alt="image.png"></li> <li><code>-w</code>：匹配整个单词
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-5c980846556842d28aada31263c3e6ac.png" alt="image.png"></li> <li><code>-L</code>：只列出匹配的文件名
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-0a67d664f33f47d192cce4719951f5a0.png" alt="image.png"></li> <li><code>-F</code>：不支持正则，按字符串字面意思进行匹配
+<img src="https://cdn.jsdelivr.net/gh/hashqueue/blog-image-hosting@master/images/image-42f6fc4685bd4200a9d44b9bdee95b9d.png" alt="image.png"></li></ul> <h4 id="查看当前登录用户是否在-etc-passwd文件下存在-存在就打印用户存在-不存在就打印用户不存在。"><a href="#查看当前登录用户是否在-etc-passwd文件下存在-存在就打印用户存在-不存在就打印用户不存在。" class="header-anchor">#</a> 查看当前登录用户是否在<code>/etc/passwd</code>文件下存在，存在就打印用户存在，不存在就打印用户不存在。</h4> <ul><li><code>/dev/null</code>表示 的是一个黑洞，通常用于丢弃不需要的数据输出， 或者用于输入流的空文件</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">grep</span> <span class="token string">&quot;<span class="token environment constant">$USER</span>&quot;</span> /etc/passwd <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">echo</span> <span class="token string">&quot;<span class="token environment constant">$USER</span> existed&quot;</span> <span class="token operator">||</span> <span class="token string">&quot;<span class="token environment constant">$USER</span> not existed&quot;</span>            
+wenbin:x:1000:1000:wenbin:/home/wenbin:/usr/bin/zsh
+wenbin existed
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">grep</span> <span class="token string">&quot;<span class="token environment constant">$USER</span>&quot;</span> /etc/passwd <span class="token operator">&amp;&gt;</span> /dev/null<span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">echo</span> <span class="token string">&quot;<span class="token environment constant">$USER</span> existed&quot;</span> <span class="token operator">||</span> <span class="token string">&quot;<span class="token environment constant">$USER</span> not existed&quot;</span> 
+wenbin existed
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h2 id="sed"><a href="#sed" class="header-anchor">#</a> sed</h2> <ul><li>流编辑器,对文本逐行进行处理</li> <li><code>sed --help</code>查看<code>sed</code>命令帮助文档<div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">--help</span>
+用法: <span class="token function">sed</span> <span class="token punctuation">[</span>选项<span class="token punctuation">]</span><span class="token punctuation">..</span>. <span class="token punctuation">{</span>脚本<span class="token punctuation">(</span>如果没有其他脚本<span class="token punctuation">)</span><span class="token punctuation">}</span> <span class="token punctuation">[</span>输入文件<span class="token punctuation">]</span><span class="token punctuation">..</span>.
+
+  -n, --quiet, <span class="token parameter variable">--silent</span>
+                 取消自动打印模式空间
+  <span class="token parameter variable">-e</span> 脚本, <span class="token parameter variable">--expression</span><span class="token operator">=</span>脚本
+                 添加“脚本”到程序的运行列表
+  <span class="token parameter variable">-f</span> 脚本文件, <span class="token parameter variable">--file</span><span class="token operator">=</span>脚本文件
+                 添加“脚本文件”到程序的运行列表
+  --follow-symlinks
+                 直接修改文件时跟随软链接
+  -i<span class="token punctuation">[</span>SUFFIX<span class="token punctuation">]</span>, --in-place<span class="token punctuation">[</span><span class="token operator">=</span>SUFFIX<span class="token punctuation">]</span>
+                 edit files <span class="token keyword">in</span> place <span class="token punctuation">(</span>makes backup <span class="token keyword">if</span> SUFFIX supplied<span class="token punctuation">)</span>
+  <span class="token parameter variable">-l</span> N, --line-length<span class="token operator">=</span>N
+                 指定“l”命令的换行期望长度
+  <span class="token parameter variable">--posix</span>
+                 关闭所有 GNU 扩展
+  -E, -r, --regexp-extended
+                 use extended regular expressions <span class="token keyword">in</span> the script
+                 <span class="token punctuation">(</span>for portability use POSIX -E<span class="token punctuation">)</span>.
+  -s, <span class="token parameter variable">--separate</span>
+                 consider files as separate rather than as a single,
+                 continuous long stream.
+      <span class="token parameter variable">--sandbox</span>
+                 operate <span class="token keyword">in</span> sandbox mode.
+  -u, <span class="token parameter variable">--unbuffered</span>
+                 从输入文件读取最少的数据，更频繁的刷新输出
+  -z, --null-data
+                 使用 NUL 字符分隔各行
+      <span class="token parameter variable">--help</span>     打印帮助并退出
+      <span class="token parameter variable">--version</span>  输出版本信息并退出
+
+如果没有 -e, --expression, <span class="token parameter variable">-f</span> 或 <span class="token parameter variable">--file</span> 选项，那么第一个非选项参数被视为
+sed脚本。其他非选项参数被视为输入文件，如果没有输入文件，那么程序将从标准
+输入读取数据。
+
+GNU版sed主页： <span class="token operator">&lt;</span>http://www.gnu.org/software/sed/<span class="token operator">&gt;</span>。
+使用GNU软件所需帮助文档： <span class="token operator">&lt;</span>http://www.gnu.org/gethelp/<span class="token operator">&gt;</span>。
+请将错误报告发送至：<span class="token operator">&lt;</span>bug-sed@gnu.org<span class="token operator">&gt;</span>。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br></div></div></li> <li>用法
+<ul><li><code>sed [option] &quot;pattern command&quot; file</code></li> <li><code>some command | sed [option] &quot;pattern command&quot;</code></li></ul></li></ul> <h3 id="用法选项-option"><a href="#用法选项-option" class="header-anchor">#</a> 用法选项[option]</h3> <ul><li><code>-n</code>：只打印模式匹配的行</li> <li><code>-f</code>：加载存放动作的文件</li> <li><code>-r</code>：支持拓展正则</li> <li><code>-i</code>：直接修改文件</li></ul> <h3 id="pattern模式"><a href="#pattern模式" class="header-anchor">#</a> pattern模式</h3> <ul><li><code>5</code>：只处理第5行</li> <li><code>5,10</code>：只处理第<code>5</code>行到第<code>10</code>行</li> <li><code>/pattern1/</code>：只处理能匹配<code>pattern1</code>的行</li> <li><code>/pattern1/,/pattern2/</code>：只处理从匹配<code>pattern1</code>的行到匹配<code>pattern2</code>的行</li></ul> <h3 id="command命令"><a href="#command命令" class="header-anchor">#</a> command命令</h3> <ul><li>查询
+<ul><li><code>p</code>:打印</li></ul></li> <li>新增
+<ul><li><code>a</code>：在匹配行后新增</li> <li><code>i</code>：在匹配行前新增</li> <li><code>r</code>：外部文件读入，行后新增</li> <li><code>w</code>：匹配行写入外部文件</li></ul></li> <li>删除
+<ul><li><code>d</code></li></ul></li> <li>修改
+<ul><li><code>s/old/new/</code>：只修改匹配行中第一个<code>old</code></li> <li><code>s/old/new/g</code>：修改匹配行中所有<code>old</code></li> <li><code>s/old/new/ig</code>：忽略大小写</li></ul></li></ul> <h3 id="用法示例"><a href="#用法示例" class="header-anchor">#</a> 用法示例</h3> <p>测试文件内容如下</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> <span class="token function">passwd</span>
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">14</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">15</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">16</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">17</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">18</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">19</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">20</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+    <span class="token number">21</span>	systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+    <span class="token number">22</span>	syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+    <span class="token number">23</span>	messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+    <span class="token number">24</span>	_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+    <span class="token number">25</span>	uuidd:x:105:111::/run/uuidd:/usr/sbin/nologin
+    <span class="token number">26</span>	avahi-autoipd:x:106:112:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin
+    <span class="token number">27</span>	usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+    <span class="token number">28</span>	dnsmasq:x:108:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+    <span class="token number">29</span>	rtkit:x:109:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+    <span class="token number">30</span>	cups-pk-helper:x:110:116:user <span class="token keyword">for</span> cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin
+    <span class="token number">31</span>	speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+    <span class="token number">32</span>	whoopsie:x:112:117::/nonexistent:/bin/false
+    <span class="token number">33</span>	kernoops:x:113:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin
+    <span class="token number">34</span>	saned:x:114:119::/var/lib/saned:/usr/sbin/nologin
+    <span class="token number">35</span>	pulse:x:115:120:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+    <span class="token number">36</span>	avahi:x:116:122:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+    <span class="token number">37</span>	colord:x:117:123:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+    <span class="token number">38</span>	hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+    <span class="token number">39</span>	geoclue:x:119:124::/var/lib/geoclue:/usr/sbin/nologin
+    <span class="token number">40</span>	gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false
+    <span class="token number">41</span>	gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false
+    <span class="token number">42</span>	wenbin:x:1000:1000:wenbin:/home/wenbin:/usr/bin/zsh
+    <span class="token number">43</span>	nm-openconnect:x:123:128:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+    <span class="token number">44</span>	clamav:x:125:129::/var/lib/clamav:/bin/false
+    <span class="token number">45</span>	nvidia-persistenced:x:122:127:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin
+    <span class="token number">46</span>	mysql:x:124:130:MySQL Server,,,:/var/lib/mysql:/bin/false
+    <span class="token number">47</span>	nm-openvpn:x:126:131:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin
+    <span class="token number">48</span>	memcache:x:127:133:Memcached,,,:/nonexistent:/bin/false
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br></div></div><h4 id="查"><a href="#查" class="header-anchor">#</a> 查</h4> <ul><li>查看文件第5行内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'5 p'</span> <span class="token function">passwd</span>        
+sync:x:4:65534:sync:/bin:/bin/sync
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ul><li>查看文件第1行到第5行的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'1,5 p'</span> <span class="token function">passwd</span>      
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><ul><li>查看文件中包含<code>mail</code>字符串的行的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/mail/ p'</span> <span class="token function">passwd</span>   
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ul><li>查看文件中以<code>m</code>开头,<code>login</code>结尾的行的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/^m.*login$/ p'</span> <span class="token function">passwd</span>
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul><li>查看文件中从<strong>包含<code>list</code>字符串所在行</strong>到<strong>包含<code>nobody</code>字符串所在行</strong>的<strong>所有行的内容</strong></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/list/,/nobody/ p'</span> <span class="token function">passwd</span>
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="增加"><a href="#增加" class="header-anchor">#</a> 增加</h4> <ul><li>在从以<code>proxy</code>开头的行到以<code>list</code>开头的行的行的所有行<strong>之后</strong>新增一行，新增行的内容为<code>sed行前新增的内容</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'/^proxy/,/^list/ a sed行前新增的内容'</span> <span class="token function">passwd</span>  
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> <span class="token function">passwd</span> 
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	sed行前新增的内容
+    <span class="token number">14</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">15</span>	sed行前新增的内容
+    <span class="token number">16</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">17</span>	sed行前新增的内容
+    <span class="token number">18</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">19</span>	sed行前新增的内容
+    <span class="token number">20</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">21</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">22</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">23</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">24</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+    <span class="token number">25</span>	systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+    <span class="token number">26</span>	syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+    <span class="token number">27</span>	messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+    <span class="token number">28</span>	_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+    <span class="token number">29</span>	uuidd:x:105:111::/run/uuidd:/usr/sbin/nologin
+    <span class="token number">30</span>	avahi-autoipd:x:106:112:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin
+    <span class="token number">31</span>	usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+    <span class="token number">32</span>	dnsmasq:x:108:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+    <span class="token number">33</span>	rtkit:x:109:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+    <span class="token number">34</span>	cups-pk-helper:x:110:116:user <span class="token keyword">for</span> cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin
+    <span class="token number">35</span>	speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+    <span class="token number">36</span>	whoopsie:x:112:117::/nonexistent:/bin/false
+    <span class="token number">37</span>	kernoops:x:113:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin
+    <span class="token number">38</span>	saned:x:114:119::/var/lib/saned:/usr/sbin/nologin
+    <span class="token number">39</span>	pulse:x:115:120:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+    <span class="token number">40</span>	avahi:x:116:122:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+    <span class="token number">41</span>	colord:x:117:123:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+    <span class="token number">42</span>	hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+    <span class="token number">43</span>	geoclue:x:119:124::/var/lib/geoclue:/usr/sbin/nologin
+    <span class="token number">44</span>	gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false
+    <span class="token number">45</span>	gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false
+    <span class="token number">46</span>	wenbin:x:1000:1000:wenbin:/home/wenbin:/usr/bin/zsh
+    <span class="token number">47</span>	nm-openconnect:x:123:128:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+    <span class="token number">48</span>	clamav:x:125:129::/var/lib/clamav:/bin/false
+    <span class="token number">49</span>	nvidia-persistenced:x:122:127:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin
+    <span class="token number">50</span>	mysql:x:124:130:MySQL Server,,,:/var/lib/mysql:/bin/false
+    <span class="token number">51</span>	nm-openvpn:x:126:131:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin
+    <span class="token number">52</span>	memcache:x:127:133:Memcached,,,:/nonexistent:/bin/false
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br></div></div><ul><li>在从以<code>proxy</code>开头的行到以<code>list</code>开头的行的行的所有行<strong>之前</strong>新增一行，新增行的内容为<code>sed行后新增的内容</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'/^proxy/,/^list/ a sed行后新增的内容'</span> <span class="token function">passwd</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> <span class="token function">passwd</span>                                       
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	sed行后新增的内容
+    <span class="token number">14</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">15</span>	sed行后新增的内容
+    <span class="token number">16</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">17</span>	sed行后新增的内容
+    <span class="token number">18</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">19</span>	sed行后新增的内容
+    <span class="token number">20</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">21</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">22</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">23</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">24</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+    <span class="token number">25</span>	systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+    <span class="token number">26</span>	syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+    <span class="token number">27</span>	messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+    <span class="token number">28</span>	_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+    <span class="token number">29</span>	uuidd:x:105:111::/run/uuidd:/usr/sbin/nologin
+    <span class="token number">30</span>	avahi-autoipd:x:106:112:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin
+    <span class="token number">31</span>	usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+    <span class="token number">32</span>	dnsmasq:x:108:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+    <span class="token number">33</span>	rtkit:x:109:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+    <span class="token number">34</span>	cups-pk-helper:x:110:116:user <span class="token keyword">for</span> cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin
+    <span class="token number">35</span>	speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+    <span class="token number">36</span>	whoopsie:x:112:117::/nonexistent:/bin/false
+    <span class="token number">37</span>	kernoops:x:113:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin
+    <span class="token number">38</span>	saned:x:114:119::/var/lib/saned:/usr/sbin/nologin
+    <span class="token number">39</span>	pulse:x:115:120:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+    <span class="token number">40</span>	avahi:x:116:122:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+    <span class="token number">41</span>	colord:x:117:123:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+    <span class="token number">42</span>	hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+    <span class="token number">43</span>	geoclue:x:119:124::/var/lib/geoclue:/usr/sbin/nologin
+    <span class="token number">44</span>	gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false
+    <span class="token number">45</span>	gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false
+    <span class="token number">46</span>	wenbin:x:1000:1000:wenbin:/home/wenbin:/usr/bin/zsh
+    <span class="token number">47</span>	nm-openconnect:x:123:128:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+    <span class="token number">48</span>	clamav:x:125:129::/var/lib/clamav:/bin/false
+    <span class="token number">49</span>	nvidia-persistenced:x:122:127:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin
+    <span class="token number">50</span>	mysql:x:124:130:MySQL Server,,,:/var/lib/mysql:/bin/false
+    <span class="token number">51</span>	nm-openvpn:x:126:131:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin
+    <span class="token number">52</span>	memcache:x:127:133:Memcached,,,:/nonexistent:/bin/false
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br></div></div><ul><li>在从以<code>proxy</code>开头的行到以<code>list</code>开头的行的行的所有行<strong>之后</strong>新增从<code>test.txt</code>文件中读取到的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test.txt
+     <span class="token number">1</span>	<span class="token punctuation">[</span>root@root-aliyun ~<span class="token punctuation">]</span>$ /bin/bash while_loop.sh
+     <span class="token number">2</span>	请输入一个数字<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token number">100</span>
+     <span class="token number">3</span>	从1累加到100的结果为：5050
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'/^proxy/,/^list/ r test.txt'</span> <span class="token function">passwd</span>         
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> <span class="token function">passwd</span>                              
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	<span class="token punctuation">[</span>root@root-aliyun ~<span class="token punctuation">]</span>$ /bin/bash while_loop.sh
+    <span class="token number">14</span>	请输入一个数字<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token number">100</span>
+    <span class="token number">15</span>	从1累加到100的结果为：5050
+    <span class="token number">16</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">17</span>	<span class="token punctuation">[</span>root@root-aliyun ~<span class="token punctuation">]</span>$ /bin/bash while_loop.sh
+    <span class="token number">18</span>	请输入一个数字<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token number">100</span>
+    <span class="token number">19</span>	从1累加到100的结果为：5050
+    <span class="token number">20</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">21</span>	<span class="token punctuation">[</span>root@root-aliyun ~<span class="token punctuation">]</span>$ /bin/bash while_loop.sh
+    <span class="token number">22</span>	请输入一个数字<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token number">100</span>
+    <span class="token number">23</span>	从1累加到100的结果为：5050
+    <span class="token number">24</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">25</span>	<span class="token punctuation">[</span>root@root-aliyun ~<span class="token punctuation">]</span>$ /bin/bash while_loop.sh
+    <span class="token number">26</span>	请输入一个数字<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token number">100</span>
+    <span class="token number">27</span>	从1累加到100的结果为：5050
+    <span class="token number">28</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">29</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">30</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">31</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">32</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+    <span class="token number">33</span>	systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+    <span class="token number">34</span>	syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+    <span class="token number">35</span>	messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+    <span class="token number">36</span>	_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+    <span class="token number">37</span>	uuidd:x:105:111::/run/uuidd:/usr/sbin/nologin
+    <span class="token number">38</span>	avahi-autoipd:x:106:112:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin
+    <span class="token number">39</span>	usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+    <span class="token number">40</span>	dnsmasq:x:108:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+    <span class="token number">41</span>	rtkit:x:109:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+    <span class="token number">42</span>	cups-pk-helper:x:110:116:user <span class="token keyword">for</span> cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin
+    <span class="token number">43</span>	speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+    <span class="token number">44</span>	whoopsie:x:112:117::/nonexistent:/bin/false
+    <span class="token number">45</span>	kernoops:x:113:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin
+    <span class="token number">46</span>	saned:x:114:119::/var/lib/saned:/usr/sbin/nologin
+    <span class="token number">47</span>	pulse:x:115:120:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+    <span class="token number">48</span>	avahi:x:116:122:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+    <span class="token number">49</span>	colord:x:117:123:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+    <span class="token number">50</span>	hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+    <span class="token number">51</span>	geoclue:x:119:124::/var/lib/geoclue:/usr/sbin/nologin
+    <span class="token number">52</span>	gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/false
+    <span class="token number">53</span>	gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false
+    <span class="token number">54</span>	wenbin:x:1000:1000:wenbin:/home/wenbin:/usr/bin/zsh
+    <span class="token number">55</span>	nm-openconnect:x:123:128:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+    <span class="token number">56</span>	clamav:x:125:129::/var/lib/clamav:/bin/false
+    <span class="token number">57</span>	nvidia-persistenced:x:122:127:NVIDIA Persistence Daemon,,,:/nonexistent:/sbin/nologin
+    <span class="token number">58</span>	mysql:x:124:130:MySQL Server,,,:/var/lib/mysql:/bin/false
+    <span class="token number">59</span>	nm-openvpn:x:126:131:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin
+    <span class="token number">60</span>	memcache:x:127:133:Memcached,,,:/nonexistent:/bin/false
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br></div></div><ul><li>将以<code>proxy</code>开头的行到以<code>list</code>开头的行的行的所有行写入到一个外部文件<code>output.txt</code>中</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'/^proxy/,/^list/ w output.txt'</span> <span class="token function">passwd</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> output.txt 
+     <span class="token number">1</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+     <span class="token number">2</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+     <span class="token number">3</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+     <span class="token number">4</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="删除"><a href="#删除" class="header-anchor">#</a> 删除</h4> <ul><li>删除文本中包含<code>www</code>字符串的行</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/www/ p'</span> <span class="token function">passwd</span>
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'/www/ d'</span> <span class="token function">passwd</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/www/ p'</span> <span class="token function">passwd</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="修改"><a href="#修改" class="header-anchor">#</a> 修改</h4> <p>测试文件内容如下</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>This new method does not require an existing physical/virtual macOS installation. 
+However, this new method requires internet access during the macOS installation process. 
+This limitation may be addressed <span class="token keyword">in</span> a future commit.
+Python is interesting<span class="token operator">!</span>python,Python,python
+Java is interesting<span class="token operator">!</span>
+Python is interesting<span class="token operator">!</span>python,Python,python
+Go is interesting<span class="token operator">!</span>
+Python is interesting<span class="token operator">!</span>python,Python,python
+This README documents the new method to <span class="token function">install</span> macOS. 
+The older README is available here.
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul><li>修改第4行到第8行中第一个<code>Python</code>为<code>PYTHON</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'4,8 s/Python/PYTHON/'</span> test1.txt
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt                       
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	PYTHON is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	PYTHON is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	PYTHON is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><ul><li>修改第4行到第8行中所有的<code>Python</code>为<code>PYTHON</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'4,8 s/Python/PYTHON/g'</span> test1.txt
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt                        
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	PYTHON is interesting<span class="token operator">!</span>python,PYTHON,python
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	PYTHON is interesting<span class="token operator">!</span>python,PYTHON,python
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	PYTHON is interesting<span class="token operator">!</span>python,PYTHON,python
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><ul><li>修改第4行到第8行中所有的<code>Python</code>为<code>PYTHON</code>，忽略大小写，也包含<code>python</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	Python is interesting<span class="token operator">!</span>python,Python,python
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'4,8 s/Python/PYTHON/ig'</span> test1.txt
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> test1.txt                         
+     <span class="token number">1</span>	This new method does not require an existing physical/virtual macOS installation. 
+     <span class="token number">2</span>	However, this new method requires internet access during the macOS installation process. 
+     <span class="token number">3</span>	This limitation may be addressed <span class="token keyword">in</span> a future commit.
+     <span class="token number">4</span>	PYTHON is interesting<span class="token operator">!</span>PYTHON,PYTHON,PYTHON
+     <span class="token number">5</span>	Java is interesting<span class="token operator">!</span>
+     <span class="token number">6</span>	PYTHON is interesting<span class="token operator">!</span>PYTHON,PYTHON,PYTHON
+     <span class="token number">7</span>	Go is interesting<span class="token operator">!</span>
+     <span class="token number">8</span>	PYTHON is interesting<span class="token operator">!</span>PYTHON,PYTHON,PYTHON
+     <span class="token number">9</span>	This README documents the new method to <span class="token function">install</span> macOS. 
+    <span class="token number">10</span>	The older README is available here.
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h2 id="awk"><a href="#awk" class="header-anchor">#</a> awk</h2> <ul><li>文本和数据进行处理的编程语言。</li> <li>awk 是一种编程语言，用于在linux/unix下对文本和数据进行处理。数据可以来自标准输入(stdin)、一个或多个文件，或其它命令的输出。它支持用户自定义函数和动态正则表达式等先进功能，是linux/unix下的一个强大编程工具。它在命令行中使用，但更多是作为脚本来使用。awk有很多内建的功能，比如数组、函数等，这是它和C语言的相同之处，灵活性是awk最大的优势。</li> <li><code>awk --help</code>查看帮助文档</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token parameter variable">--help</span>
+Usage: <span class="token function">awk</span> <span class="token punctuation">[</span>POSIX or GNU style options<span class="token punctuation">]</span> <span class="token parameter variable">-f</span> progfile <span class="token punctuation">[</span>--<span class="token punctuation">]</span> <span class="token function">file</span> <span class="token punctuation">..</span>.
+Usage: <span class="token function">awk</span> <span class="token punctuation">[</span>POSIX or GNU style options<span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token punctuation">]</span> <span class="token string">'program'</span> <span class="token function">file</span> <span class="token punctuation">..</span>.
+POSIX options:		GNU long options: <span class="token punctuation">(</span>standard<span class="token punctuation">)</span>
+	<span class="token parameter variable">-f</span> progfile		<span class="token parameter variable">--file</span><span class="token operator">=</span>progfile
+	<span class="token parameter variable">-F</span> fs			--field-separator<span class="token operator">=</span>fs
+	<span class="token parameter variable">-v</span> <span class="token assign-left variable">var</span><span class="token operator">=</span>val		<span class="token parameter variable">--assign</span><span class="token operator">=</span>var<span class="token operator">=</span>val
+Short options:		GNU long options: <span class="token punctuation">(</span>extensions<span class="token punctuation">)</span>
+	<span class="token parameter variable">-b</span>			--characters-as-bytes
+	<span class="token parameter variable">-c</span>			<span class="token parameter variable">--traditional</span>
+	<span class="token parameter variable">-C</span>			<span class="token parameter variable">--copyright</span>
+	-d<span class="token punctuation">[</span>file<span class="token punctuation">]</span>		--dump-variables<span class="token punctuation">[</span><span class="token operator">=</span>file<span class="token punctuation">]</span>
+	<span class="token parameter variable">-e</span> <span class="token string">'program-text'</span>	<span class="token parameter variable">--source</span><span class="token operator">=</span><span class="token string">'program-text'</span>
+	<span class="token parameter variable">-E</span> <span class="token function">file</span>			<span class="token parameter variable">--exec</span><span class="token operator">=</span>file
+	<span class="token parameter variable">-g</span>			--gen-pot
+	<span class="token parameter variable">-h</span>			<span class="token parameter variable">--help</span>
+	<span class="token parameter variable">-L</span> <span class="token punctuation">[</span>fatal<span class="token punctuation">]</span>		--lint<span class="token punctuation">[</span><span class="token operator">=</span>fatal<span class="token punctuation">]</span>
+	<span class="token parameter variable">-n</span>			--non-decimal-data
+	<span class="token parameter variable">-N</span>			--use-lc-numeric
+	<span class="token parameter variable">-O</span>			<span class="token parameter variable">--optimize</span>
+	-p<span class="token punctuation">[</span>file<span class="token punctuation">]</span>		--profile<span class="token punctuation">[</span><span class="token operator">=</span>file<span class="token punctuation">]</span>
+	<span class="token parameter variable">-P</span>			<span class="token parameter variable">--posix</span>
+	<span class="token parameter variable">-r</span>			--re-interval
+	<span class="token parameter variable">-S</span>			<span class="token parameter variable">--sandbox</span>
+	<span class="token parameter variable">-t</span>			--lint-old
+	<span class="token parameter variable">-V</span>			<span class="token parameter variable">--version</span>
+
+To report bugs, see <span class="token function">node</span> <span class="token variable"><span class="token variable">`</span>Bugs' <span class="token keyword">in</span> <span class="token variable">`</span></span>gawk.info<span class="token string">', which is
+section `Reporting Problems and Bugs'</span> <span class="token keyword">in</span> the printed version.
+
+<span class="token function">gawk</span> is a pattern scanning and processing language.
+By default it reads standard input and writes standard output.
+
+Examples:
+	<span class="token function">gawk</span> <span class="token string">'{ sum += $1 }; END { print sum }'</span> <span class="token function">file</span>
+	<span class="token function">gawk</span> -F: <span class="token string">'{ print $1 }'</span> /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><ul><li>用法
+<ul><li><p><code>awk 'BEGIN{} pattern {commands} END{}' filename</code></p> <table><thead><tr><th style="text-align:center;">格式</th> <th style="text-align:center;">含义</th></tr></thead> <tbody><tr><td style="text-align:center;">BEGIN{}</td> <td style="text-align:center;">处理数据之前执行</td></tr> <tr><td style="text-align:center;">pattern</td> <td style="text-align:center;">匹配模式</td></tr> <tr><td style="text-align:center;">{commands}</td> <td style="text-align:center;">处理的命令</td></tr> <tr><td style="text-align:center;">END{}</td> <td style="text-align:center;">处理数据之后执行</td></tr></tbody></table></li> <li><p><code>some command | grep [option] [pattern]</code></p></li></ul></li></ul> <h3 id="内置变量"><a href="#内置变量" class="header-anchor">#</a> 内置变量</h3> <table><thead><tr><th style="text-align:center;">内置变量</th> <th style="text-align:center;">含义</th></tr></thead> <tbody><tr><td style="text-align:center;">$0</td> <td style="text-align:center;">整行内容</td></tr> <tr><td style="text-align:center;">$1~$n</td> <td style="text-align:center;">当前行的第1~n个字段</td></tr> <tr><td style="text-align:center;">NF(Number Field)</td> <td style="text-align:center;">当前行字段数</td></tr> <tr><td style="text-align:center;">NR(Number Row)</td> <td style="text-align:center;">当前行行号，从1开始</td></tr> <tr><td style="text-align:center;">FS(Field Separator)</td> <td style="text-align:center;">输入字段分隔符,默认为空格或tab键</td></tr> <tr><td style="text-align:center;">RS(Row Separator)</td> <td style="text-align:center;">输入行分隔符,默认为回车符</td></tr> <tr><td style="text-align:center;">OFS(Output Field Separator)</td> <td style="text-align:center;">输出字段分隔符,默认为空格</td></tr> <tr><td style="text-align:center;">ORS(Output Row Separator)</td> <td style="text-align:center;">输出行分隔符,默认为回车符</td></tr></tbody></table> <h3 id="printf格式符"><a href="#printf格式符" class="header-anchor">#</a> <code>printf</code>格式符</h3> <table><thead><tr><th style="text-align:center;">格式符</th> <th style="text-align:center;">含义</th></tr></thead> <tbody><tr><td style="text-align:center;">%s</td> <td style="text-align:center;">字符串</td></tr> <tr><td style="text-align:center;">%d</td> <td style="text-align:center;">十进制数</td></tr> <tr><td style="text-align:center;">%f</td> <td style="text-align:center;">浮点数</td></tr></tbody></table> <table><thead><tr><th style="text-align:center;">修饰符</th> <th style="text-align:center;">含义</th></tr></thead> <tbody><tr><td style="text-align:center;">+</td> <td style="text-align:center;">右对齐</td></tr> <tr><td style="text-align:center;">-</td> <td style="text-align:center;">左对齐</td></tr></tbody></table> <h3 id="awk命令用法示例"><a href="#awk命令用法示例" class="header-anchor">#</a> <code>awk</code>命令用法示例</h3> <ul><li><code>awk</code>默认以<code>空格(文本内容每行可以是不规则个数的空格)</code>或<code>tab(文本内容每行可以是不规则个数的tab)</code>键对文本进行提取</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> info.txt          
+     <span class="token number">1</span>	name	                  gender	age	love
+     <span class="token number">2</span>	Jack	      male	<span class="token number">45</span>	    Python
+     <span class="token number">3</span>	xiaohong        	male	<span class="token number">22</span>	Java
+     <span class="token number">4</span>	xiaohuamale 		female	<span class="token number">15</span>	PHP
+     <span class="token number">5</span>	xiaozhang			male	<span class="token number">21</span>	Go
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $0}'</span> info.txt
+name	                  gender	age	love
+Jack	      male	<span class="token number">45</span>	    Python
+xiaohong        	male	<span class="token number">22</span>	Java
+xiaohuamale 		female	<span class="token number">15</span>	PHP
+xiaozhang			male	<span class="token number">21</span>	Go
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $1}'</span> info.txt
+name
+Jack
+xiaohong
+xiaohuamale
+xiaozhang
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $2}'</span> info.txt
+gender
+male
+male
+female
+male
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $3}'</span> info.txt
+age
+<span class="token number">45</span>
+<span class="token number">22</span>
+<span class="token number">15</span>
+<span class="token number">21</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $4}'</span> info.txt
+love
+Python
+Java
+PHP
+Go
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><ul><li>打印<strong>文本每一行</strong>的<strong>字段个数</strong></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> info.txt 
+     <span class="token number">1</span>	name	                  gender	age	love
+     <span class="token number">2</span>	Jack	      male	<span class="token number">45</span>	    Python
+     <span class="token number">3</span>	xiaohong        	male	<span class="token number">22</span>	Java
+     <span class="token number">4</span>	xiaohuamale 		female	<span class="token number">15</span>	PHP
+     <span class="token number">5</span>	xiaozhang			male	<span class="token number">21</span>	Go
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print NF}'</span> info.txt
+<span class="token number">4</span>
+<span class="token number">4</span>
+<span class="token number">4</span>
+<span class="token number">4</span>
+<span class="token number">4</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><ul><li>打印<strong>文本每一行</strong>的<strong>行号</strong></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> info.txt          
+     <span class="token number">1</span>	name	                  gender	age	love
+     <span class="token number">2</span>	Jack	      male	<span class="token number">45</span>	    Python
+     <span class="token number">3</span>	xiaohong        	male	<span class="token number">22</span>	Java
+     <span class="token number">4</span>	xiaohuamale 		female	<span class="token number">15</span>	PHP
+     <span class="token number">5</span>	xiaozhang			male	<span class="token number">21</span>	Go
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print NR}'</span> info.txt
+<span class="token number">1</span>
+<span class="token number">2</span>
+<span class="token number">3</span>
+<span class="token number">4</span>
+<span class="token number">5</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><ul><li>打印文本<strong>每行最后一列</strong>的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> info.txt 
+     <span class="token number">1</span>	name	                  gender	age	love
+     <span class="token number">2</span>	Jack	      male	<span class="token number">45</span>	    Python C语言
+     <span class="token number">3</span>	xiaohong        	male	<span class="token number">22</span>	Java
+     <span class="token number">4</span>	xiaohuamale 		female	<span class="token number">15</span>	PHP
+     <span class="token number">5</span>	xiaozhang			male	<span class="token number">21</span>	Go
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'{print $NF}'</span> info.txt
+love
+C语言
+Java
+PHP
+Go
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><ul><li>指定输入字段分隔符<code>:</code>并打印文本每一行的第一列内容、第二列内容、最后一列内容、最后一列的前一列的内容</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> passwd.log 
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">14</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">15</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">16</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">17</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">18</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">19</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">20</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {print $1}'</span> passwd.log 
+root
+daemon
+bin
+sys
+<span class="token function">sync</span>
+games
+<span class="token function">man</span>
+lp
+mail
+news
+uucp
+proxy
+www-data
+backup
+list
+irc
+list
+gnats
+nobody
+systemd-network
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {print $2}'</span> passwd.log
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+x
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {print $NF}'</span> passwd.log
+/bin/bash
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/bin/sync
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {print $(NF-1)}'</span> passwd.log
+/root
+/usr/sbin
+/bin
+/dev
+/bin
+/usr/games
+/var/cache/man
+/var/spool/lpd
+/var/mail
+/var/spool/news
+/var/spool/uucp
+/bin
+/var/www
+/var/backups
+/var/list
+/var/run/ircd
+/var/list
+/var/lib/gnats
+/nonexistent
+/run/systemd/netif
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br></div></div><ul><li>使用<code>printf</code>美化输出</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> passwd.log 
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">14</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">15</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">16</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">17</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">18</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">19</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">20</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+<span class="token comment"># 格式化输出为字符串，左对齐输出(长度一共为20)</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%-20s%-20s\n&quot;, $1, $NF}'</span> passwd.log
+root                /bin/bash           
+daemon              /usr/sbin/nologin   
+bin                 /usr/sbin/nologin   
+sys                 /usr/sbin/nologin   
+<span class="token function">sync</span>                /bin/sync           
+games               /usr/sbin/nologin   
+<span class="token function">man</span>                 /usr/sbin/nologin   
+lp                  /usr/sbin/nologin   
+mail                /usr/sbin/nologin   
+news                /usr/sbin/nologin   
+uucp                /usr/sbin/nologin   
+proxy               /usr/sbin/nologin   
+www-data            /usr/sbin/nologin   
+backup              /usr/sbin/nologin   
+list                /usr/sbin/nologin   
+irc                 /usr/sbin/nologin   
+list                /usr/sbin/nologin   
+gnats               /usr/sbin/nologin   
+nobody              /usr/sbin/nologin   
+systemd-network     /usr/sbin/nologin   
+<span class="token comment"># 格式化输出为字符串，右对齐输出(长度一共为20)</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%20s%20s\n&quot;, $1, $NF}'</span> passwd.log
+                root           /bin/bash
+              daemon   /usr/sbin/nologin
+                 bin   /usr/sbin/nologin
+                 sys   /usr/sbin/nologin
+                <span class="token function">sync</span>           /bin/sync
+               games   /usr/sbin/nologin
+                 <span class="token function">man</span>   /usr/sbin/nologin
+                  lp   /usr/sbin/nologin
+                mail   /usr/sbin/nologin
+                news   /usr/sbin/nologin
+                uucp   /usr/sbin/nologin
+               proxy   /usr/sbin/nologin
+            www-data   /usr/sbin/nologin
+              backup   /usr/sbin/nologin
+                list   /usr/sbin/nologin
+                 irc   /usr/sbin/nologin
+                list   /usr/sbin/nologin
+               gnats   /usr/sbin/nologin
+              nobody   /usr/sbin/nologin
+     systemd-network   /usr/sbin/nologin
+<span class="token comment"># 格式化输出为字符串，右对齐输出(长度一共为20)</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%20s\n&quot;, $4}'</span> passwd.log 
+                   <span class="token number">0</span>
+                   <span class="token number">1</span>
+                   <span class="token number">2</span>
+                   <span class="token number">3</span>
+               <span class="token number">65534</span>
+                  <span class="token number">60</span>
+                  <span class="token number">12</span>
+                   <span class="token number">7</span>
+                   <span class="token number">8</span>
+                   <span class="token number">9</span>
+                  <span class="token number">10</span>
+                  <span class="token number">13</span>
+                  <span class="token number">33</span>
+                  <span class="token number">34</span>
+                  <span class="token number">38</span>
+                  <span class="token number">39</span>
+                  <span class="token number">40</span>
+                  <span class="token number">41</span>
+               <span class="token number">65534</span>
+                 <span class="token number">102</span>
+<span class="token comment"># 格式化输出为十进制数字，右对齐输出(长度一共为20)，`+20`中的`+`可以省略</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%20d\n&quot;, $4}'</span> passwd.log
+                   <span class="token number">0</span>
+                   <span class="token number">1</span>
+                   <span class="token number">2</span>
+                   <span class="token number">3</span>
+               <span class="token number">65534</span>
+                  <span class="token number">60</span>
+                  <span class="token number">12</span>
+                   <span class="token number">7</span>
+                   <span class="token number">8</span>
+                   <span class="token number">9</span>
+                  <span class="token number">10</span>
+                  <span class="token number">13</span>
+                  <span class="token number">33</span>
+                  <span class="token number">34</span>
+                  <span class="token number">38</span>
+                  <span class="token number">39</span>
+                  <span class="token number">40</span>
+                  <span class="token number">41</span>
+               <span class="token number">65534</span>
+                 <span class="token number">102</span>
+<span class="token comment"># 格式化输出为浮点数默认保留6位小数，右对齐输出(长度一共为20)</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%20f\n&quot;, $4}'</span> passwd.log
+            <span class="token number">0.000000</span>
+            <span class="token number">1.000000</span>
+            <span class="token number">2.000000</span>
+            <span class="token number">3.000000</span>
+        <span class="token number">65534.000000</span>
+           <span class="token number">60.000000</span>
+           <span class="token number">12.000000</span>
+            <span class="token number">7.000000</span>
+            <span class="token number">8.000000</span>
+            <span class="token number">9.000000</span>
+           <span class="token number">10.000000</span>
+           <span class="token number">13.000000</span>
+           <span class="token number">33.000000</span>
+           <span class="token number">34.000000</span>
+           <span class="token number">38.000000</span>
+           <span class="token number">39.000000</span>
+           <span class="token number">40.000000</span>
+           <span class="token number">41.000000</span>
+        <span class="token number">65534.000000</span>
+<span class="token comment"># 格式化输出为浮点数并保留2位小数，右对齐输出(长度一共为20)</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} {printf &quot;%20.2f\n&quot;, $4}'</span> passwd.log
+                <span class="token number">0.00</span>
+                <span class="token number">1.00</span>
+                <span class="token number">2.00</span>
+                <span class="token number">3.00</span>
+            <span class="token number">65534.00</span>
+               <span class="token number">60.00</span>
+               <span class="token number">12.00</span>
+                <span class="token number">7.00</span>
+                <span class="token number">8.00</span>
+                <span class="token number">9.00</span>
+               <span class="token number">10.00</span>
+               <span class="token number">13.00</span>
+               <span class="token number">33.00</span>
+               <span class="token number">34.00</span>
+               <span class="token number">38.00</span>
+               <span class="token number">39.00</span>
+               <span class="token number">40.00</span>
+               <span class="token number">41.00</span>
+            <span class="token number">65534.00</span>
+              <span class="token number">102.00</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br></div></div><ul><li>使用<code>pattern</code>匹配</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> passwd.log                                                     
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">14</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">15</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">16</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">17</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">18</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">19</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">20</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} /mail/ {printf &quot;%-20s%-20s\n&quot;, $1, $NF}'</span> passwd.log
+mail                /usr/sbin/nologin   
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} /^mail/,/proxy/ {printf &quot;%-20s%-20s\n&quot;, $1, $NF}'</span> passwd.log
+mail                /usr/sbin/nologin   
+news                /usr/sbin/nologin   
+uucp                /usr/sbin/nologin   
+proxy               /usr/sbin/nologin   
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} /^mail/,/proxy/ {printf &quot;%-20s%-20s\n&quot;, $1, $NF}'</span> passwd.log <span class="token operator">|</span> <span class="token function">wc</span> <span class="token parameter variable">-l</span>
+<span class="token number">4</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} $4 &gt; 100 {printf &quot;%-20s%-20s%-20s\n&quot;, $1, $4, $NF}'</span> passwd.log        
+<span class="token function">sync</span>                <span class="token number">65534</span>               /bin/sync           
+nobody              <span class="token number">65534</span>               /usr/sbin/nologin   
+systemd-network     <span class="token number">102</span>                 /usr/sbin/nologin
+<span class="token comment"># $6 ~ &quot;/bin&quot;：文本的每行第6列是`/bin`字符串</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} $6 == &quot;/bin&quot; {printf &quot;%-20s%-20s%-20s\n&quot;, $1, $6, $NF}'</span> passwd.log 
+bin                 /bin                /usr/sbin/nologin   
+<span class="token function">sync</span>                /bin                /bin/sync           
+proxy               /bin                /usr/sbin/nologin 
+<span class="token comment"># $6 ~ &quot;/bin&quot;：文本的每行第6列包含`/bin`字符串</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} $6 ~ &quot;/bin&quot; {printf &quot;%-20s%-20s%-20s\n&quot;, $1, $6, $NF}'</span> passwd.log
+bin                 /bin                /usr/sbin/nologin   
+<span class="token function">sync</span>                /bin                /bin/sync           
+proxy               /bin                /usr/sbin/nologin
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><ul><li>统计文本中以<code>:</code>进行分割的第6列中包含<code>/bin</code>的行的数量并使用变量<code>count</code>保存输出</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> <span class="token parameter variable">-n</span> passwd.log                                                                                                              
+     <span class="token number">1</span>	root:x:0:0:root:/root:/bin/bash
+     <span class="token number">2</span>	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     <span class="token number">3</span>	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+     <span class="token number">4</span>	sys:x:3:3:sys:/dev:/usr/sbin/nologin
+     <span class="token number">5</span>	sync:x:4:65534:sync:/bin:/bin/sync
+     <span class="token number">6</span>	games:x:5:60:games:/usr/games:/usr/sbin/nologin
+     <span class="token number">7</span>	man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+     <span class="token number">8</span>	lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+     <span class="token number">9</span>	mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    <span class="token number">10</span>	news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    <span class="token number">11</span>	uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    <span class="token number">12</span>	proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    <span class="token number">13</span>	www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    <span class="token number">14</span>	backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    <span class="token number">15</span>	list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">16</span>	irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    <span class="token number">17</span>	list:x:40:40:Phone List Manager:/var/list:/usr/sbin/nologin
+    <span class="token number">18</span>	gnats:x:41:41:Gnats Bug-Reporting System <span class="token punctuation">(</span>admin<span class="token punctuation">)</span>:/var/lib/gnats:/usr/sbin/nologin
+    <span class="token number">19</span>	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    <span class="token number">20</span>	systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token string">'BEGIN{FS=&quot;:&quot;} $6 ~ &quot;/bin&quot; {count++; printf &quot;%-20s%-20s\n&quot;, $6, $NF} END{printf &quot;%-20s%-20s\n&quot;, &quot;Total&quot;, count}'</span> passwd.log
+/bin                /usr/sbin/nologin   
+/bin                /bin/sync           
+/bin                /usr/sbin/nologin   
+Total               <span class="token number">3</span>                   
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><ul><li><code>awk</code>脚本示例</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">cat</span> info.awk   
+BEGIN<span class="token punctuation">{</span>
+    <span class="token assign-left variable">FS</span><span class="token operator">=</span><span class="token string">&quot;:&quot;</span>
+    <span class="token builtin class-name">printf</span> <span class="token string">&quot;%-20s%-20s<span class="token entity" title="\n">\n</span>&quot;</span>, <span class="token string">&quot;user&quot;</span>, <span class="token string">&quot;shell&quot;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$6</span> ~ <span class="token string">&quot;/bin&quot;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            count++<span class="token punctuation">;</span> <span class="token builtin class-name">printf</span> <span class="token string">&quot;%-20s%-20s<span class="token entity" title="\n">\n</span>&quot;</span>, <span class="token variable">$1</span>, <span class="token variable">$NF</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+END<span class="token punctuation">{</span>
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;%-20s%-20s<span class="token entity" title="\n">\n</span>&quot;</span>, <span class="token string">&quot;Total&quot;</span>, count
+<span class="token punctuation">}</span>
+<span class="token punctuation">[</span>root@aliyun ~<span class="token punctuation">]</span>$ <span class="token function">awk</span> <span class="token parameter variable">-f</span> info.awk ~/passwd.log 
+user                shell               
+bin                 /usr/sbin/nologin   
+<span class="token function">sync</span>                /bin/sync           
+proxy               /usr/sbin/nologin   
+Total               <span class="token number">3</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div></div></div> <!----> <div class="page-edit"><div class="edit-link"><a href="https://github.com/hashqueue/hashqueue.github.io/edit/master/docs/04.操作系统/01.Linux/08.shell—文本处理三剑客grep&amp;sed&amp;awk.md" target="_blank" rel="noopener noreferrer">编辑</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2023/01/04, 02:34:17</span></div></div> <div class="page-nav-wapper"><div class="page-nav-centre-wrap"><a href="/pages/747fbc/" class="page-nav-centre page-nav-centre-prev"><div class="tooltip">shell-基础语法</div></a> <a href="/pages/750886/" class="page-nav-centre page-nav-centre-next"><div class="tooltip">阿里云CentOS服务器更改ssh端口</div></a></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/pages/747fbc/" class="prev">shell-基础语法</a></span> <span class="next"><a href="/pages/750886/">阿里云CentOS服务器更改ssh端口</a>→
+      </span></p></div></div></div> <div class="article-list"><div class="article-title"><a href="/archives/" class="iconfont icon-bi">最近更新</a></div> <div class="article-wrapper"><dl><dd>01</dd> <dt><a href="/pages/ac727a/"><div>
+            Python实现对字符串的加解密
+            <!----></div></a> <span class="date">02-25</span></dt></dl><dl><dd>02</dd> <dt><a href="/pages/e9dfe0/"><div>
+            Python3对大文件中指定字符进行排序再写入到新的文件
+            <!----></div></a> <span class="date">10-24</span></dt></dl><dl><dd>03</dd> <dt><a href="/pages/6c6252/"><div>
+            Ubuntu下配置adb环境连接Android设备进行调试
+            <!----></div></a> <span class="date">08-17</span></dt></dl> <dl><dd></dd> <dt><a href="/archives/" class="more">更多文章&gt;</a></dt></dl></div></div></main></div> <div class="footer"><div class="icons"><a href="mailto:1912315910@qq.com" title="发邮件" target="_blank" class="iconfont icon-youjian"></a><a href="https://github.com/hashqueue" title="GitHub" target="_blank" class="iconfont icon-github"></a><a href="https://music.163.com/#/playlist?id=3778678" title="听音乐" target="_blank" class="iconfont icon-erji"></a></div> 
+  Theme by
+  <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" title="本站主题">Vdoing</a> 
+    | Copyright © 2021-2023
+    <span>hashqueue | <a href="https://github.com/hashqueue/hashqueue.github.io/blob/main/LICENSE" target="_blank">MIT License</a></span></div> <div class="buttons"><div title="返回顶部" class="button blur go-to-top iconfont icon-fanhuidingbu" style="display:none;"></div> <div title="去评论" class="button blur go-to-comment iconfont icon-pinglun" style="display:none;"></div> <div title="主题模式" class="button blur theme-mode-but iconfont icon-zhuti"><ul class="select-box" style="display:none;"><li class="iconfont icon-zidong">
+          跟随系统
+        </li><li class="iconfont icon-rijianmoshi">
+          浅色模式
+        </li><li class="iconfont icon-yejianmoshi">
+          深色模式
+        </li><li class="iconfont icon-yuedu">
+          阅读模式
+        </li></ul></div></div> <!----> <!----> <!----></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.56233da9.js" defer></script><script src="/assets/js/2.428278c7.js" defer></script><script src="/assets/js/58.710ee01b.js" defer></script>
+  </body>
+</html>
